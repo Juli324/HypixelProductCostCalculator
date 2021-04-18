@@ -1,6 +1,8 @@
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,6 +38,8 @@ public class JSONLoader {
                 in.close();
             }
             connection.disconnect();
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("./data/bazaar.json"));
+            bufferedWriter.write(content.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
