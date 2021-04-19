@@ -1,11 +1,6 @@
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BazaarItem {
     String productId;
@@ -29,7 +24,8 @@ public class BazaarItem {
         buyMovingWeek = qs.getLong("buyMovingWeek");
         buyOrders = qs.getInt("buyOrders");
     }
-    public static BazaarItem getByPID(String product_id, ArrayList<BazaarItem> list) throws ProductNotFoundException{
+
+    public static BazaarItem getByPID(String product_id, ArrayList<BazaarItem> list) throws ProductNotFoundException {
         for (BazaarItem bazaarItem : list) {
             if (bazaarItem.productId.equals(product_id)) {
                 return bazaarItem;
