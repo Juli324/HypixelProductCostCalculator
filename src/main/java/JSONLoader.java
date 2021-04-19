@@ -24,22 +24,24 @@ public class JSONLoader {
     public static JSONObject getBazaarJSON() {
         StringBuffer content = new StringBuffer();
         try {
+            int bufferSize = 640 * 1024;
             URL url = new URL("https://api.hypixel.net/skyblock/bazaar");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
             if (connection.getResponseCode() == 200) {
                 BufferedReader in = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()));
+                        new InputStreamReader(connection.getInputStream()), bufferSize);
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
+                    content.append(inputLine + "\n");
                 }
                 in.close();
             }
             connection.disconnect();
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("./data/bazaar.json"));
             bufferedWriter.write(content.toString());
+            bufferedWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
