@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class JSONLoader {
     public static ArrayList<BazaarItem> getBazaarList(JSONObject file) {
@@ -28,21 +29,20 @@ public class JSONLoader {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
+            FileWriter wrt = new FileWriter("./data/bazaar.json");
             if (connection.getResponseCode() == 200) {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
+                Scanner in = new Scanner(connection.getInputStream());
+                while (in.hasNext()) {
+                    String next = in.next();
+                    wrt.write(next);
+                    content.append(next);
                 }
                 in.close();
             }
             connection.disconnect();
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("./data/bazaar.json"));
-            bufferedWriter.write(content.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new JSONObject(content.toString());
+        return new JSONObject(content);
     }
 }
