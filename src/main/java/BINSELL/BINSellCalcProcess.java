@@ -9,5 +9,14 @@ public class BINSellCalcProcess {
         this.JsonPath = JsonPath;
     }
 
+    /**
+     * TODO: get ItemID values from bazzar.json and calculate Average
+     *  all Values from wished Item / Number of all prices
+     */
+    public float getAverageValue() {
+        float value = 0;
+
+        return value;
+    }
 
 }
