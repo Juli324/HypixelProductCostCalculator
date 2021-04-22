@@ -1,5 +1,8 @@
 package JSONPull;
 
+import tools.JSONFileReader;
+import tools.JSONFileWriter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,6 +35,7 @@ public class JSONPullProcess {
                 in.close();
             }
             connection.disconnect();
+            JSONFileWriter writer = new JSONFileWriter(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
