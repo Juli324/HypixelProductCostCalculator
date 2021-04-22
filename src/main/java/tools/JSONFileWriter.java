@@ -9,6 +9,7 @@ public class JSONFileWriter {
         this.path = path;
     }
 
-    public void WriteJSON(JSONObject object) {
+    public void writeJSON(JSONObject object) {
+        //TODO: write JSON reader
     }
 }

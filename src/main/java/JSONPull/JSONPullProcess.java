@@ -1,6 +1,6 @@
 package JSONPull;
 
-import tools.JSONFileReader;
+import org.json.JSONObject;
 import tools.JSONFileWriter;
 
 import java.io.BufferedReader;
@@ -13,15 +13,15 @@ public class JSONPullProcess {
 
     private final String URL, path;
 
-    public JSONPullProcess(String path, String url) {
-        this.URL = url;
+    public JSONPullProcess(String path, String URL) {
+        this.URL = URL;
         this.path = path;
     }
 
     public void run() {
         StringBuilder content = new StringBuilder();
         try {
-            java.net.URL url = new URL("https://api.hypixel.net/skyblock/bazaar");
+            java.net.URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -30,12 +30,13 @@ public class JSONPullProcess {
                         new InputStreamReader(connection.getInputStream()), 640 * 1024);
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine + "\n");
+                    content.append(inputLine);
                 }
                 in.close();
             }
             connection.disconnect();
             JSONFileWriter writer = new JSONFileWriter(path);
+            writer.writeJSON(new JSONObject(content.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
