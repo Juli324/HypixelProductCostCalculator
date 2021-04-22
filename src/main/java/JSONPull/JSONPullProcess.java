@@ -3,7 +3,9 @@ package JSONPull;
 import org.json.JSONObject;
 import tools.JSONFileWriter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -21,9 +23,20 @@ public class JSONPullProcess {
         try {
             java.net.URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            JSONFileWriter writer = new JSONFileWriter(path);
-            writer.writeJSON(new JSONObject(new JSONBuilder().buildFromConnection(connection)));
+            connection.setRequestMethod("GET");
+            connection.connect();
+            if (connection.getResponseCode() == 200) {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()), 640 * 1024);
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+            }
             connection.disconnect();
+            JSONFileWriter writer = new JSONFileWriter(path);
+            writer.writeJSON(new JSONObject(content.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
