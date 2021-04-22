@@ -23,20 +23,9 @@ public class JSONPullProcess {
         try {
             java.net.URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            if (connection.getResponseCode() == 200) {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()), 640 * 1024);
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-            }
-            connection.disconnect();
             JSONFileWriter writer = new JSONFileWriter(path);
-            writer.writeJSON(new JSONObject(content.toString()));
+            writer.writeJSON(new JSONObject(new JSONBuilder().buildFromConnection(connection)));
+            connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
