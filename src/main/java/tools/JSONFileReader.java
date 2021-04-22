@@ -2,6 +2,8 @@ package tools;
 
 import org.json.JSONObject;
 
+import java.io.*;
+
 public class JSONFileReader {
     private final String path;
 
@@ -10,7 +12,14 @@ public class JSONFileReader {
     }
 
     public JSONObject readObject() {
-        //TODO: write JSON reader
-        return null;
+        String content = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
+            content = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject(content);
     }
 }

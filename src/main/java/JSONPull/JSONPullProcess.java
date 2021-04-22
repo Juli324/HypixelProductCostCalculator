@@ -3,9 +3,7 @@ package JSONPull;
 import org.json.JSONObject;
 import tools.JSONFileWriter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -29,5 +27,10 @@ public class JSONPullProcess {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        JSONPullProcess process = new JSONPullProcess("data/test.json", "https://api.hypixel.net/skyblock/bazaar");
+        process.run();
     }
 }
